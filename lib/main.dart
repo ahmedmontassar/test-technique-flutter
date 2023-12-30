@@ -34,13 +34,14 @@ List<Posts> todoList = [];
 class _MyHomePageState extends State<MyHomePage> {
   String data = "Veri yok.";
  late  HttpClient httpClient;
-   bool isRefreshing = false; // Added this variable to track the refreshing state
-     bool isLoading = true; // Added this variable to track the loading state
+   bool isRefreshing = false; 
+     bool isLoading = true; 
+  String errorMessage = ''; 
 
 
   @override
   void initState() {
-     // Initialize httpClient before using it in initState
+
     httpClient = HttpClient();
 
     getarticleList();
@@ -48,27 +49,33 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 Future<void> _handleRefresh() async {
-    // Perform refresh operation here
+ 
     await getarticleList();
   }
 
   getarticleList() async {
     print("bastı");
     setState(() {
-      isRefreshing = true; // Set refreshing state to true
-            isLoading = true; // Set loading state to true
-
+      isRefreshing = true; 
+            isLoading = true;
+   errorMessage = ''; 
     });
 
-    await httpClient.getarticleList().then((r) {
+  try {
+      final response = await httpClient.getarticleList();
       setState(() {
-        todoList = PostsResponse.fromJson(r.data).todoList;
-        data = todoList[0].title;
-        isRefreshing = false; // Set refreshing state to false after updating the list
-                isLoading = false; // Set loading state to false after updating the list
-
+        todoList = PostsResponse.fromJson(response.data).todoList;
+        data = todoList.isNotEmpty ? todoList[0].title : 'No data available';
+        isRefreshing = false;
+        isLoading = false;
       });
-    });
+    } catch (error) {
+      setState(() {
+        errorMessage = 'Error fetching data. Please try again.';
+        isRefreshing = false;
+        isLoading = false;
+      });
+    }
   }
 
 
@@ -116,14 +123,16 @@ Future<void> _handleRefresh() async {
           ),
         ],
       ),
-    body: Center(
+     body: Center(
         child: isLoading
-            ? progressDialog() // Show loading indicator
+            ? progressDialog()
             : isRefreshing
-                ? progressDialog() // Show refreshing indicator
-                : todoList.length == 0
-                    ? Text('No data available.')
-                    : getarticleListWidget(),
+                ? progressDialog()
+                : errorMessage.isNotEmpty
+                    ? Text(errorMessage)
+                    : todoList.length == 0
+                        ? Text('No data available.')
+                        : getarticleListWidget(),
       ),
     );
   }
