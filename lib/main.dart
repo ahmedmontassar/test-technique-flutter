@@ -35,6 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String data = "Veri yok.";
  late  HttpClient httpClient;
    bool isRefreshing = false; // Added this variable to track the refreshing state
+     bool isLoading = true; // Added this variable to track the loading state
+
 
   @override
   void initState() {
@@ -54,6 +56,8 @@ Future<void> _handleRefresh() async {
     print("bastı");
     setState(() {
       isRefreshing = true; // Set refreshing state to true
+            isLoading = true; // Set loading state to true
+
     });
 
     await httpClient.getarticleList().then((r) {
@@ -61,6 +65,8 @@ Future<void> _handleRefresh() async {
         todoList = PostsResponse.fromJson(r.data).todoList;
         data = todoList[0].title;
         isRefreshing = false; // Set refreshing state to false after updating the list
+                isLoading = false; // Set loading state to false after updating the list
+
       });
     });
   }
@@ -110,12 +116,14 @@ Future<void> _handleRefresh() async {
           ),
         ],
       ),
-      body: Center(
-        child: isRefreshing
-            ? progressDialog()
-            : todoList.length == 0
-                ? progressDialog()
-                : getarticleListWidget(),
+    body: Center(
+        child: isLoading
+            ? progressDialog() // Show loading indicator
+            : isRefreshing
+                ? progressDialog() // Show refreshing indicator
+                : todoList.length == 0
+                    ? Text('No data available.')
+                    : getarticleListWidget(),
       ),
     );
   }
