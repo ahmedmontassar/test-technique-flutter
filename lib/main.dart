@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:rest/models/Todo.dart';
-import 'package:rest/models/TodoResponse.dart';
-import 'package:rest/rest/http_client.dart';
-import 'package:rest/widgets/ListItem.dart';
+import 'package:test_tech/models/Todo.dart';
+import 'package:test_tech/models/TodoResponse.dart';
+import 'package:test_tech/rest/http_client.dart';
+import 'package:test_tech/widgets/ListItem.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,21 +22,23 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-List<Todo> todoList = new List();
+List<Todo> todoList = [];
 
 class _MyHomePageState extends State<MyHomePage> {
   String data = "Veri yok.";
-  HttpClient httpClient;
+ late  HttpClient httpClient;
   @override
   void initState() {
-    httpClient = new HttpClient();
+     // Initialize httpClient before using it in initState
+    httpClient = HttpClient();
+
     getTodoList();
     super.initState();
   }

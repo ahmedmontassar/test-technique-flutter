@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 
 class HttpClient {
-  Dio dio;
+  late Dio dio;
+
   HttpClient() {
-    dio = new Dio();
+    dio = Dio();
     dio.options.baseUrl = "https://jsonplaceholder.typicode.com/";
-    dio.options.connectTimeout = 5000;
-    dio.options.receiveTimeout = 3000;
+    dio.options.connectTimeout = Duration(milliseconds: 5000);
+    dio.options.receiveTimeout = Duration(milliseconds: 3000);
   }
 
   Future<Response> getTodoList() {

@@ -1,8 +1,9 @@
-import 'package:rest/models/Todo.dart';
+import 'package:test_tech/models/Todo.dart';
+
 
 class TodoResponse{
   final List<Todo> todoList;
-  TodoResponse({this.todoList});
+  TodoResponse({required this.todoList});
 
   factory TodoResponse.fromJson(List<dynamic> json){
   return TodoResponse(

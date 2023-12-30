@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rest/models/Todo.dart';
-import 'package:rest/screens/TodoDetail.dart';
+import 'package:test_tech/models/Todo.dart';
+import 'package:test_tech/screens/TodoDetail.dart';
 
 class ListItem extends StatelessWidget {
   final Todo todo;
-  const ListItem({Key key, this.todo}) : super(key: key);
+  const ListItem({Key? key,required this.todo}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
