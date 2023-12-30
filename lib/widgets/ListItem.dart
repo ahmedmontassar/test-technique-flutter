@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:test_tech/models/Todo.dart';
-import 'package:test_tech/screens/TodoDetail.dart';
+import 'package:test_tech/models/Posts.dart';
+import 'package:test_tech/screens/PostsDetail.dart';
 
 class ListItem extends StatelessWidget {
-  final Todo todo;
-  const ListItem({Key? key,required this.todo}) : super(key: key);
+  final Posts posts;
+  const ListItem({Key? key,required this.posts}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => TodoDetail(todo: todo,)),
+          MaterialPageRoute(builder: (context) => PostsDetail(posts: posts,)),
         );
       },
       child: Card(
@@ -19,14 +19,11 @@ class ListItem extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              Text("title: ${todo.title}"),
-              Text("id: ${todo.id}"),
-              Text("userId: ${todo.userId}"),
+              Text("title: ${posts.title}"),
+              Text("id: ${posts.id}"),
+              Text("userId: ${posts.userId}"),
               Text(
-                "completed: ${todo.completed}",
-                style: TextStyle(
-                    backgroundColor:
-                        todo.completed == true ? Colors.green : Colors.red),
+                "body: ${posts.body}"
               ),
             ],
           ),

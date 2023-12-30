@@ -1,19 +1,19 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:test_tech/models/Todo.dart';
+import 'package:test_tech/models/Posts.dart';
 import 'package:test_tech/rest/http_client.dart';
 import 'package:test_tech/widgets/ListItem.dart';
 
-class TodoDetail extends StatefulWidget {
-  final Todo todo;
-  const TodoDetail({Key? key,required this.todo}) : super(key: key);
+class PostsDetail extends StatefulWidget {
+  final Posts posts;
+  const PostsDetail({Key? key,required this.posts}) : super(key: key);
 
   @override
-  _TodoDetailState createState() => _TodoDetailState();
+  _PostsDetailState createState() => _PostsDetailState();
 }
 
-  Todo newTodo = Todo(userId: 0, id: 0, title: '', completed: false); // Example initialization
+  Posts newPosts = Posts(userId: 0, id: 0, title: '',body:'' ); // Example initialization
 
 
 Widget progressDialog() {
@@ -23,18 +23,18 @@ Widget progressDialog() {
   );
 }
 
-class _TodoDetailState extends State<TodoDetail> {
-  getSingleTodo(int id) {
-    new HttpClient().getSingleTodo(id).then((r) {
+class _PostsDetailState extends State<PostsDetail> {
+  getSinglePosts(int id) {
+    new HttpClient().getSinglePosts(id).then((r) {
       setState(() {
-        newTodo = Todo.fromJson(r.data[0]);
+        newPosts = Posts.fromJson(r.data[0]);
       });
     });
   }
 
   @override
   void initState() {
-    getSingleTodo(widget.todo.id);
+    getSinglePosts(widget.posts.id);
     super.initState();
   }
 
@@ -42,15 +42,15 @@ class _TodoDetailState extends State<TodoDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.todo.title),
+        title: Text(widget.posts.title),
       ),
       body: Center(
-        child: newTodo == null
+        child: newPosts == null
             ? progressDialog()
             : Column(
                 children: <Widget>[
                   ListItem(
-                    todo: newTodo,
+                    posts: newPosts,
                   )
                 ],
               ),

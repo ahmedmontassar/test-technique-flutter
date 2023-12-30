@@ -10,11 +10,11 @@ class HttpClient {
     dio.options.receiveTimeout = Duration(milliseconds: 3000);
   }
 
-  Future<Response> getTodoList() {
-    return dio.get("todos");
+  Future<Response> getarticleList() {
+    return dio.get("posts");
   }
 
-  Future<Response> getSingleTodo(int id) {
-    return dio.get("todos?id=$id");
+  Future<Response> getSinglePosts(int id) {
+    return dio.get("posts?id=$id");
   }
 }

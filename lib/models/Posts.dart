@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-class Todo {
+class Posts {
  int userId = 0; // Provide appropriate default values if needed
   int id = 0;
   String title = '';
-  bool completed = false;
+  bool body = '';
 
-  Todo({
+  Posts({
     required this.userId,
     required this.id, // Initialize the id field in the constructor
     required this.title,
-    required this.completed,
+    required this.body,
   });
 
-  Todo.fromJson(Map<String, dynamic> json) {
+  Posts.fromJson(Map<String, dynamic> json) {
     userId = json['userId'] as int;
     id = json['id'] as int;
     title = json['title'] as String;
-    completed = json['completed'] as bool;
+    body = json['body'] as String;
   }
 
   Map<String, dynamic> toJson() {
@@ -25,7 +25,7 @@ class Todo {
     data['userId'] = this.userId;
     data['id'] = this.id;
     data['title'] = this.title;
-    data['completed'] = this.completed;
+    data['body'] = this.body;
     return data;
   }
 

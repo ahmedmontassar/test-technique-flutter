@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:test_tech/models/Todo.dart';
-import 'package:test_tech/models/TodoResponse.dart';
+import 'package:test_tech/models/Posts.dart';
+import 'package:test_tech/models/PostsResponse.dart';
 import 'package:test_tech/rest/http_client.dart';
 import 'package:test_tech/widgets/ListItem.dart';
 
@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: ' test technique',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: ' test technique  liste d articles.'),
     );
   }
 }
@@ -29,7 +29,7 @@ MyHomePage({Key? key, required this.title}) : super(key: key);
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-List<Todo> todoList = [];
+List<Posts> todoList = [];
 
 class _MyHomePageState extends State<MyHomePage> {
   String data = "Veri yok.";
@@ -39,15 +39,15 @@ class _MyHomePageState extends State<MyHomePage> {
      // Initialize httpClient before using it in initState
     httpClient = HttpClient();
 
-    getTodoList();
+    getarticleList();
     super.initState();
   }
 
-  getTodoList() {
+  getarticleList() {
     print("bastı");
-    httpClient.getTodoList().then((r) {
+    httpClient.getarticleList().then((r) {
       setState(() {
-        todoList = TodoResponse.fromJson(r.data).todoList;
+        todoList = PostsResponse.fromJson(r.data).todoList;
         data = todoList[0].title;
       });
     });
@@ -60,13 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget getTodoListWidget() {
+  Widget getarticleListWidget() {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: todoList.length,
       itemBuilder: (context, pos) {
         return ListItem(
-          todo: todoList[pos],
+          posts: todoList[pos],
         );
       },
     );
@@ -87,11 +87,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Icon(Icons.refresh)),
             GestureDetector(
                 onTap: () {
-                  getTodoList();
+                  getarticleList();
                 },
                 child: Icon(Icons.cloud_download)),
           ],
         ),
-        body: Center(child: todoList.length == 0 ? progressDialog() : getTodoListWidget()));
+        body: Center(child: todoList.length == 0 ? progressDialog() : getarticleListWidget()));
   }
 }
