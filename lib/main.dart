@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: ' liste d articles.'),
+      home: MyHomePage(        title: 'Liste d\'articles',),
     );
   }
 }
