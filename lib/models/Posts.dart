@@ -4,7 +4,7 @@ class Posts {
  int userId = 0; // Provide appropriate default values if needed
   int id = 0;
   String title = '';
-  bool body = '';
+  String body = '';
 
   Posts({
     required this.userId,
