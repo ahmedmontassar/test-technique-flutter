@@ -34,6 +34,8 @@ List<Posts> todoList = [];
 class _MyHomePageState extends State<MyHomePage> {
   String data = "Veri yok.";
  late  HttpClient httpClient;
+   bool isRefreshing = false; // Added this variable to track the refreshing state
+
   @override
   void initState() {
      // Initialize httpClient before using it in initState
@@ -43,15 +45,26 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  getarticleList() {
+Future<void> _handleRefresh() async {
+    // Perform refresh operation here
+    await getarticleList();
+  }
+
+  getarticleList() async {
     print("bastı");
-    httpClient.getarticleList().then((r) {
+    setState(() {
+      isRefreshing = true; // Set refreshing state to true
+    });
+
+    await httpClient.getarticleList().then((r) {
       setState(() {
         todoList = PostsResponse.fromJson(r.data).todoList;
         data = todoList[0].title;
+        isRefreshing = false; // Set refreshing state to false after updating the list
       });
     });
   }
+
 
   Widget progressDialog() {
     return CircularProgressIndicator(
@@ -61,37 +74,49 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget getarticleListWidget() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: todoList.length,
-      itemBuilder: (context, pos) {
-        return ListItem(
-          posts: todoList[pos],
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: _handleRefresh,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: todoList.length,
+        itemBuilder: (context, pos) {
+          return ListItem(
+            posts: todoList[pos],
+          );
+        },
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-          actions: <Widget>[
-            GestureDetector(
-                onTap: () {
-                  setState(() {
-                    data = "Veriyi getir";
-                  });
-                },
-                child: Icon(Icons.refresh)),
-            GestureDetector(
-                onTap: () {
-                  getarticleList();
-                },
-                child: Icon(Icons.cloud_download)),
-          ],
-        ),
-        body: Center(child: todoList.length == 0 ? progressDialog() : getarticleListWidget()));
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                data = "Veriyi getir";
+              });
+            },
+            child: Icon(Icons.refresh),
+          ),
+          GestureDetector(
+            onTap: () {
+              getarticleList();
+            },
+            child: Icon(Icons.cloud_download),
+          ),
+        ],
+      ),
+      body: Center(
+        child: isRefreshing
+            ? progressDialog()
+            : todoList.length == 0
+                ? progressDialog()
+                : getarticleListWidget(),
+      ),
+    );
   }
 }
