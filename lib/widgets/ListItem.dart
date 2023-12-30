@@ -22,9 +22,7 @@ class ListItem extends StatelessWidget {
               Text("title: ${posts.title}"),
               Text("id: ${posts.id}"),
               Text("userId: ${posts.userId}"),
-              Text(
-                "body: ${posts.body}"
-              ),
+           
             ],
           ),
         ),
