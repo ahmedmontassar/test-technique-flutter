@@ -21,10 +21,12 @@ class ListItem extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              Text("title: ${posts.title}",  textAlign: TextAlign.center,
-  textScaleFactor: 4.0,  style: TextStyle(
+              Text("title: ${posts.title}",   textAlign: TextAlign.center,
+  style: TextStyle(
     color: Colors.blue,
-      fontWeight: FontWeight.w300,
+    fontSize: 20.0,
+    fontFamily: "Caveat",
+    fontWeight: FontWeight.w700
   ),),
               Text("id: ${posts.id}"),
               Text("userId: ${posts.userId}"),
