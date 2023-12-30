@@ -4,7 +4,9 @@ import 'package:test_tech/screens/PostsDetail.dart';
 
 class ListItem extends StatelessWidget {
   final Posts posts;
-  const ListItem({Key? key,required this.posts}) : super(key: key);
+    final bool withDetails;
+
+  const ListItem({Key? key,required this.posts ,     this.withDetails = false,}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,7 +24,8 @@ class ListItem extends StatelessWidget {
               Text("title: ${posts.title}"),
               Text("id: ${posts.id}"),
               Text("userId: ${posts.userId}"),
-           
+                 if (withDetails) Text("body: ${posts.body}"),
+
             ],
           ),
         ),

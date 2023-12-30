@@ -50,7 +50,7 @@ class _PostsDetailState extends State<PostsDetail> {
             : Column(
                 children: <Widget>[
                   ListItem(
-                    posts: newPosts,
+                    posts: newPosts, true
                   )
                 ],
               ),
